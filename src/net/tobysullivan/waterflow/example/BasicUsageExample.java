@@ -35,6 +35,7 @@ public class BasicUsageExample {
 				new SampleMeasurement(0.40f, 0.29f, 0.84f)
 			};
 		
+		// The actual rate calculation can be done in a single call
 		float rateOfFlow = FlowCalculator.calcRateOfFlow(samples);
 		
 		System.out.println("The computed rate of flow is " + rateOfFlow + " cubic meters per second");
