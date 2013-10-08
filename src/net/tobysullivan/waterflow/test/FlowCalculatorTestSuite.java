@@ -1,6 +1,10 @@
 package net.tobysullivan.waterflow.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 import net.tobysullivan.waterflow.FlowCalculator;
 import net.tobysullivan.waterflow.SampleMeasurement;
 
@@ -58,5 +62,19 @@ public class FlowCalculatorTestSuite {
 			};
 		
 		FlowCalculator.calcRateOfFlow(samples);
+	}
+	
+	@Test(expected = InvocationTargetException.class)
+	public void testClassNotInstantiable() throws IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException {
+		final Class<?> cls = FlowCalculator.class;
+	    final Constructor<?> c = cls.getDeclaredConstructors()[0];
+	    c.setAccessible(true);
+
+	    try {
+	    c.newInstance();
+	    } catch (InvocationTargetException ex) {
+	    	assertEquals(InstantiationException.class, ex.getCause().getClass());
+	    	throw ex;
+	    }
 	}
 }

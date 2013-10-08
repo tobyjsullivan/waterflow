@@ -1,6 +1,10 @@
 package net.tobysullivan.waterflow;
 
-public class FlowCalculator {
+public final class FlowCalculator {
+	private FlowCalculator() throws InstantiationException {
+		throw new InstantiationException("This class cannon be instantiated.");
+	}
+	
 	public static float calcRateOfFlow(SampleMeasurement[] samples) {
 		if(samples == null) {
 			throw new IllegalArgumentException("A provided sample is null");
