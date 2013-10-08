@@ -14,7 +14,7 @@ public final class FlowCalculator {
 	 */
 	public static float calcRateOfFlow(SampleMeasurement[] samples) {
 		if(samples == null) {
-			throw new IllegalArgumentException("A provided sample is null");
+			throw new IllegalArgumentException("A provided sample array is null");
 		}
 		
 		// The rate of flow is the sum of the flows of each sample
@@ -34,6 +34,33 @@ public final class FlowCalculator {
 		
 		// Rate of flow is calculated as AREA x VELOCITY
 		return sample.getWidth() * sample.getDepth() * sample.getVelocity();
+	}
+	
+	/**
+	 * This helper method will simply sum up the total width of our samples. This can be used
+	 * for sanity checks to ensure all samples are properly in the array. I.e., the result
+	 * of this method can be compared to the known width of our body of water at the sample
+	 * site.
+	 * @param samples An array of sample measurements that will be used for calculating rate of flow.
+	 * @return The total width of all samples.
+	 */
+	public static float calcTotalWidth(SampleMeasurement[] samples) {
+		if(samples == null) {
+			throw new IllegalArgumentException("A provided sample array is null");
+		}
+		
+		float total = 0.0f;
+		
+		for(int i = 0; i < samples.length; i++) {
+			SampleMeasurement sample = samples[i];
+			if(sample == null) {
+				throw new IllegalArgumentException("A provided sample is null");
+			}
+			
+			total += sample.getWidth();
+		}
+		
+		return total;
 	}
 
 	/**

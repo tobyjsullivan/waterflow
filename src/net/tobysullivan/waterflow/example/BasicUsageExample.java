@@ -4,7 +4,7 @@ import net.tobysullivan.waterflow.FlowCalculator;
 import net.tobysullivan.waterflow.SampleMeasurement;
 
 public class BasicUsageExample {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception{
 		// It is up to you to determine units and be consistent.
 		// For this example we will use metric measurements in meters and meters/second
 	
@@ -34,6 +34,14 @@ public class BasicUsageExample {
 				new SampleMeasurement(0.40f, 0.43f, 1.1f),
 				new SampleMeasurement(0.40f, 0.29f, 0.84f)
 			};
+		
+		// Before doing the actual rate of flow calculation, it is best practice to perform a sanity check on our samples.
+		// The total width of our samples should add up to the known width of our body of water. In our example, the body of 
+		// water was 3.2 meters at the sample site.
+		// The complicated comparison here accounts for the bad rounding errors prevalent in java floats.
+		if(Math.abs(FlowCalculator.calcTotalWidth(samples) - 3.2f) > 0.00001f) {
+			throw new Exception("Bad sample width. Probably a sample was missed.");
+		}
 		
 		// The actual rate calculation can be done in a single call
 		float rateOfFlow = FlowCalculator.calcRateOfFlow(samples);
